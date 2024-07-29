@@ -1,0 +1,53 @@
+for inactive orange color
+active green
+complete blue
+
+main section for patient details page
+
+ {/* <View style={isExpanded ? styles.expandedCard : styles.collapsedCard}>
+        <TouchableOpacity onPress={handleExpansion} style={styles.header}>
+        {isExpanded ? (
+          <Icon name="chevron-down" size={20} color="black" />
+          ) : (
+            <Icon name="chevron-up" size={20} color="black" />
+            )}
+            </TouchableOpacity>
+            {isExpanded ? (
+              <View style={styles.content}>
+              {imageUrl ? (
+                <Image source={{uri: patient?.imageUrl}} style={styles.image} />
+                ) : (
+                  <Text>No Image Available</Text>
+                  )}
+                  <View style={styles.info}>
+                  <Text style={styles.details}>Case Id: {patient?.caseId}</Text>
+                  {isExpanded && (
+                    <View>
+                    <Text style={styles.details}>Name: {patient?.name}</Text>
+                    <Text style={styles.details}>
+                    Surgery: {patient?.surgery}
+                  </Text>
+                  <Text style={styles.details}>
+                  Duration: {patient?.duration}
+                  </Text>
+                  </View>
+                  )}
+                  </View>
+                  </View>
+                  ) : (
+                    <View style={styles.collapsedContent}>
+                    {imageUrl ? (
+                      <Image
+                      source={{uri: patient?.imageUrl}}
+                      style={styles.collapsedImage}
+                      />
+                      ) : (
+                        <Text>No Image Available</Text>
+                        )}
+                        <View style={styles.collapsedInfo}>
+                        <Text style={styles.details}>Case Id: {patient?.caseId}</Text>
+                        <Text style={styles.details}>Name: {patient?.name}</Text>
+                        </View>
+                        </View>
+                        )}
+                        </View> */}
