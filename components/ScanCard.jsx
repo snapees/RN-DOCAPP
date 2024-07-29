@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import Icon from '@react-native-vector-icons/ionicons';
 import CustomSwitch from './CustomSwitch';
@@ -34,16 +34,43 @@ export default function ScanCard({patient}) {
           </View>
           {isExpanded ? (
             <View style={styles.expandedContent}>
-              <Text style={[styles.text, {marginTop: 5}]}>
-                Device ID: {patient?.deviceId}
-              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
+                  Device ID:
+                </Text>
+                <Text style={[styles.text, {marginTop: 5}]}>
+                  {patient?.deviceId}
+                </Text>
+              </View>
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text style={[styles.text, {marginTop: 5}]}>Status:</Text>
+                <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
+                  Status:
+                </Text>
                 <CustomSwitch />
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flex: 1,
+                }}>
+                <Image
+                  source={require('../assets/images/image.png')}
+                  style={[
+                    styles.image12,
+                    {width: 120, height: 60, marginTop: 20},
+                  ]}
+                />
+                <Icon
+                  name="qr-code"
+                  size={30}
+                  color="black"
+                  style={{marginLeft: 20, alignSelf: 'flex-end'}}
+                />
               </View>
             </View>
           ) : (
@@ -70,12 +97,39 @@ export default function ScanCard({patient}) {
           </View>
           {expanded ? (
             <View style={styles.expandedContent}>
-              <Text style={[styles.text, {marginTop: 5}]}>
-                Device ID: {patient?.deviceId}
-              </Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={[styles.text, {marginTop: 5}]}>Status:</Text>
+                <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
+                  Device ID:
+                </Text>
+                <Text style={[styles.text, {marginTop: 5}]}>
+                  {patient?.deviceId}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
+                  Status:
+                </Text>
                 <CustomSwitch />
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flex: 1,
+                }}>
+                <Image
+                  source={require('../assets/images/image.png')}
+                  style={[
+                    styles.image12,
+                    {width: 120, height: 60, marginTop: 20},
+                  ]}
+                />
+                <Icon
+                  name="qr-code"
+                  size={30}
+                  color="black"
+                  style={{marginLeft: 20, alignSelf: 'flex-end'}}
+                />
               </View>
             </View>
           ) : (
@@ -94,13 +148,18 @@ export default function ScanCard({patient}) {
           {/* Add content here */}
           <View style={styles.headerContainer}>
             <Text style={styles.text}>Sensor Patch Image</Text>
-            {/* <TouchableOpacity onPress={handleExpansion} style={styles.header}>
-                {isExpanded ? (
-                  <Icon name="chevron-up" size={20} color="black" />
-                ) : (
-                  <Icon name="chevron-down" size={20} color="black" />
-                )}
-              </TouchableOpacity> */}
+          </View>
+          <View style={styles.expandedContent}>
+            <Image
+              source={require('../assets/images/image.png')}
+              style={[styles.image3]}
+            />
+            <Icon
+              name="camera-sharp"
+              size={40}
+              color="black"
+              style={{marginLeft: 20, alignSelf: 'flex-end'}}
+            />
           </View>
         </View>
 
@@ -109,13 +168,21 @@ export default function ScanCard({patient}) {
           {/* Add content here */}
           <View style={styles.headerContainer}>
             <Text style={styles.text}>Reference Unit Image</Text>
-            {/* <TouchableOpacity onPress={handleExpansion} style={styles.header}>
-                {isExpanded ? (
-                  <Icon name="chevron-up" size={20} color="black" />
-                ) : (
-                  <Icon name="chevron-down" size={20} color="black" />
-                )}
-              </TouchableOpacity> */}
+          </View>
+          <Text
+            style={[
+              styles.text,
+              {alignSelf: 'center', textAlignVertical: 'center', marginTop: 50},
+            ]}>
+            Upload Reference Unit Image
+          </Text>
+          <View style={styles.expandedContent}>
+            <Icon
+              name="camera-sharp"
+              size={40}
+              color="black"
+              style={{marginLeft: 20, alignSelf: 'flex-end', marginTop: 35}}
+            />
           </View>
         </View>
       </View>
@@ -171,11 +238,25 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    height: 130,
   },
   collapsedContent: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  image12: {
+    width: '75%',
+    height: '35%',
+    borderRadius: 5,
+    opacity: 0.5,
+  },
+  image3: {
+    width: '75%',
+    height: '80%',
+    borderRadius: 5,
+    marginTop: 20,
+    alignSelf: 'center',
   },
 });
