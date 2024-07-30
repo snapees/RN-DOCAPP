@@ -15,11 +15,14 @@ export default function MessageIcon() {
 
 const styles = StyleSheet.create({
   outerBox: {
-    position: 'static',
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   innerBox: {
     width: 50,
@@ -28,5 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: -40,
   },
 });

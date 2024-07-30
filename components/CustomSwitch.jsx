@@ -1,24 +1,17 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Switch} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 
-export default function CustomSwitch() {
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  const toggleSwitch = () => {
-    setIsEnabled(!isEnabled);
-  };
-
+export default function CustomSwitch({value, onValueChange}) {
   return (
     <View style={styles.container}>
-      <View
-        style={[styles.switchContainer, isEnabled ? styles.on : styles.off]}>
-        <Text style={[styles.switchText]}>{isEnabled ? 'ON' : 'OFF'}</Text>
+      <View style={[styles.switchContainer, value ? styles.on : styles.off]}>
+        <Text style={[styles.switchText]}>{value ? 'ON' : 'OFF'}</Text>
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          thumbColor={value ? '#f5dd4b' : '#f4f3f4'}
+          onValueChange={onValueChange}
+          value={value}
           style={styles.switch}
         />
       </View>

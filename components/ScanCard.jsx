@@ -10,12 +10,21 @@ export default function ScanCard({patient}) {
   // console.log(patient);
   const [isExpanded, setIsExpanded] = useState(true);
   const [expanded, setExpanded] = useState(true);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [SwitchOn, setSwitchOn] = useState(false);
   const handleExpansion1 = () => {
     setIsExpanded(!isExpanded);
   };
   const handleExpansion2 = () => {
     setExpanded(!expanded);
   };
+  const handleSwitchChange = value => {
+    setIsSwitchOn(value);
+  };
+  const handleSwitchChange2 = value => {
+    setSwitchOn(value);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.subContainer}>
@@ -50,28 +59,40 @@ export default function ScanCard({patient}) {
                 <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
                   Status:
                 </Text>
-                <CustomSwitch />
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  flex: 1,
-                }}>
-                <Image
-                  source={require('../assets/images/image.png')}
-                  style={[
-                    styles.image12,
-                    {width: 120, height: 60, marginTop: 20},
-                  ]}
-                />
-                <Icon
-                  name="qr-code"
-                  size={30}
-                  color="black"
-                  style={{marginLeft: 20, alignSelf: 'flex-end'}}
+                <CustomSwitch
+                  value={isSwitchOn}
+                  onValueChange={handleSwitchChange}
                 />
               </View>
+              {isSwitchOn ? (
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flex: 1,
+                  }}>
+                  <Image
+                    source={require('../assets/images/image.png')}
+                    style={[
+                      styles.image12,
+                      {
+                        width: 120,
+                        height: 60,
+                        marginTop: 20,
+                      },
+                    ]}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      marginLeft: 20,
+                      alignSelf: 'flex-end',
+                    }}>
+                    <Icon name="qr-code" size={30} color="black" />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={{height: 80}} /> // Add a View with a fixed height
+              )}
             </View>
           ) : (
             <View style={styles.collapsedContent}>
@@ -109,28 +130,40 @@ export default function ScanCard({patient}) {
                 <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
                   Status:
                 </Text>
-                <CustomSwitch />
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  flex: 1,
-                }}>
-                <Image
-                  source={require('../assets/images/image.png')}
-                  style={[
-                    styles.image12,
-                    {width: 120, height: 60, marginTop: 20},
-                  ]}
-                />
-                <Icon
-                  name="qr-code"
-                  size={30}
-                  color="black"
-                  style={{marginLeft: 20, alignSelf: 'flex-end'}}
+                <CustomSwitch
+                  value={SwitchOn}
+                  onValueChange={handleSwitchChange2}
                 />
               </View>
+              {SwitchOn ? (
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flex: 1,
+                  }}>
+                  <Image
+                    source={require('../assets/images/image.png')}
+                    style={[
+                      styles.image12,
+                      {
+                        width: 120,
+                        height: 60,
+                        marginTop: 20,
+                      },
+                    ]}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      marginLeft: 20,
+                      alignSelf: 'flex-end',
+                    }}>
+                    <Icon name="qr-code" size={30} color="black" />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={{height: 80}} /> // Add a View with a fixed height
+              )}
             </View>
           ) : (
             <View style={styles.collapsedContent}>
@@ -154,12 +187,9 @@ export default function ScanCard({patient}) {
               source={require('../assets/images/image.png')}
               style={[styles.image3]}
             />
-            <Icon
-              name="camera-sharp"
-              size={40}
-              color="black"
-              style={{marginLeft: 20, alignSelf: 'flex-end'}}
-            />
+            <TouchableOpacity style={{marginRight: -10, alignSelf: 'flex-end'}}>
+              <Icon name="camera-sharp" size={40} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -177,12 +207,10 @@ export default function ScanCard({patient}) {
             Upload Reference Unit Image
           </Text>
           <View style={styles.expandedContent}>
-            <Icon
-              name="camera-sharp"
-              size={40}
-              color="black"
-              style={{marginLeft: 20, alignSelf: 'flex-end', marginTop: 35}}
-            />
+            <TouchableOpacity
+              style={{marginRight: -10, alignSelf: 'flex-end', marginTop: 33}}>
+              <Icon name="camera-sharp" size={40} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

@@ -103,6 +103,7 @@ export default function Screen1({navigation}) {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
+    marginRight: 10,
   },
   card: {
     marginBottom: 25,
