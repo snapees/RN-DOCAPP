@@ -49,6 +49,15 @@ const patientData = [
     deviceId: 'AW948',
     status: 'completed',
   },
+  {
+    caseId: '3',
+    name: '',
+    surgery: '',
+    duration: '',
+    imageUrl: 'https://via.placeholder.com/100',
+    deviceId: 'AW948',
+    status: 'inactive',
+  },
   // Add more patient data here...
 ];
 

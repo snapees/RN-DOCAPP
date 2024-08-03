@@ -1,10 +1,24 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  Alert,
+  BackHandler,
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Icon from '@react-native-vector-icons/ionicons';
 import CustomSwitch from './CustomSwitch';
 import {COLORS} from '../constants/Colors';
+import {usePermissions} from '../cameraComponents/usePErmissions';
+import {EPermissionTypes} from '../cameraComponents/constants';
+import {RESULTS} from 'react-native-permissions';
+import {getShadowProps, goToSettings} from '../cameraComponents/helpers';
+import {CameraScanner} from '../cameraComponents/CameraScanners';
 
 export default function ScanCard({patient}) {
   // console.log(patient);
@@ -12,6 +26,11 @@ export default function ScanCard({patient}) {
   const [expanded, setExpanded] = useState(true);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [SwitchOn, setSwitchOn] = useState(false);
+
+  const {askPermissions} = usePermissions(EPermissionTypes.CAMERA);
+  const [cameraShown, setCameraShown] = useState(false);
+  const [qrText, setQrText] = useState('');
+
   const handleExpansion1 = () => {
     setIsExpanded(!isExpanded);
   };
@@ -23,6 +42,94 @@ export default function ScanCard({patient}) {
   };
   const handleSwitchChange2 = value => {
     setSwitchOn(value);
+  };
+
+  function handleBackButtonClick() {
+    if (cameraShown) {
+      setCameraShown(false);
+    }
+    return false;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  });
+
+  const takePermissions = async () => {
+    askPermissions()
+      .then(response => {
+        //permission given for camera
+        if (
+          response.type === RESULTS.LIMITED ||
+          response.type === RESULTS.GRANTED
+        ) {
+          setCameraShown(true);
+        }
+      })
+      .catch(error => {
+        if ('isError' in error && error.isError) {
+          Alert.alert(
+            error.errorMessage ||
+              'Something went wrong while taking camera permission',
+          );
+        }
+        if ('type' in error) {
+          if (error.type === RESULTS.UNAVAILABLE) {
+            Alert.alert('This feature is not supported on this device');
+          } else if (
+            error.type === RESULTS.BLOCKED ||
+            error.type === RESULTS.DENIED
+          ) {
+            Alert.alert(
+              'Permission Denied',
+              'Please give permission from settings to continue using camera.',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {text: 'Go To Settings', onPress: () => goToSettings()},
+              ],
+            );
+          }
+        }
+      });
+  };
+
+  const handleReadCode = value => {
+    console.log(value);
+    // setQrText(value);
+    if (!value.startsWith('http://') && !value.startsWith('https://')) {
+      // setQrText(`Device ID: ${patient?.deviceId}`);
+      const newDeviceId = value;
+      patient.deviceId = newDeviceId; // Update the patient object with the new device ID
+      setQrText(`${newDeviceId}`);
+    } else {
+      setQrText(value);
+    }
+    setCameraShown(false);
+  };
+
+  const handleOpenLink = () => {
+    const url = qrText.trim();
+    console.log(url);
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      const newUrl = `http://${url}`;
+      Linking.openURL(newUrl).catch(err =>
+        console.error('An error occurred', err),
+      );
+    } else {
+      Linking.openURL(url).catch(err =>
+        console.error('An error occurred', err),
+      );
+    }
   };
 
   return (
@@ -47,7 +154,7 @@ export default function ScanCard({patient}) {
                 <Text style={[styles.text, {marginTop: 5, marginRight: 60}]}>
                   Device ID:
                 </Text>
-                <Text style={[styles.text, {marginTop: 5}]}>
+                <Text style={[styles.text, {marginTop: 5, marginLeft: 0}]}>
                   {patient?.deviceId}
                 </Text>
               </View>
@@ -83,15 +190,46 @@ export default function ScanCard({patient}) {
                     ]}
                   />
                   <TouchableOpacity
+                    onPress={takePermissions}
+                    activeOpacity={0.5}
                     style={{
-                      marginLeft: 20,
+                      // ...styles.itemContainer,
+                      marginLeft: 5,
                       alignSelf: 'flex-end',
                     }}>
                     <Icon name="qr-code" size={30} color="black" />
                   </TouchableOpacity>
+                  {cameraShown && (
+                    <CameraScanner
+                      setIsCameraShown={setCameraShown}
+                      onReadCode={handleReadCode}
+                    />
+                  )}
+                  {/* {qrText !== '' && (
+                    <TouchableOpacity
+                      onPress={handleOpenLink}
+                      style={[
+                        styles.qrTextContainer,
+                        {
+                          position: 'absolute',
+                          bottom: 0,
+                          alignSelf: 'center',
+                          left: 0,
+                          right: 0,
+                          padding: 20,
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: 10,
+                          marginVertical: 20,
+                        },
+                      ]}>
+                      <View>
+                        <Text style={styles.qrText}>{qrText}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )} */}
                 </View>
               ) : (
-                <View style={{height: 80}} /> // Add a View with a fixed height
+                <View style={{height: 80}} />
               )}
             </View>
           ) : (
@@ -155,7 +293,7 @@ export default function ScanCard({patient}) {
                   />
                   <TouchableOpacity
                     style={{
-                      marginLeft: 20,
+                      marginLeft: 5,
                       alignSelf: 'flex-end',
                     }}>
                     <Icon name="qr-code" size={30} color="black" />
@@ -286,5 +424,33 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 20,
     alignSelf: 'center',
+  },
+  // container1: {
+  //   flex: 1,
+  //   paddingHorizontal: 24,
+  //   backgroundColor: 'white',
+  // },
+  itemContainer: {
+    width: '100%',
+    height: 70,
+    backgroundColor: 'white',
+    marginTop: 30,
+    justifyContent: 'center',
+    ...getShadowProps(),
+    paddingLeft: 20,
+  },
+  itemText: {
+    fontSize: 17,
+    color: 'black',
+  },
+  qrTextContainer: {
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    marginVertical: 20,
+  },
+  qrText: {
+    fontSize: 18,
+    color: '#333',
   },
 });
