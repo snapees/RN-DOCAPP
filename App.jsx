@@ -8,6 +8,8 @@ import PatientDetails from './Screen/PatientDetails/PatientDetails';
 import InactivePatientDetails from './Screen/PatientDetails/InactivePatientDetails';
 import CompletedPatientDetails from './Screen/PatientDetails/CompletedPatientDetails';
 import {COLORS} from './constants/Colors';
+import ScanIcon from './Screen/ScanIcon';
+import {CameraScanner} from './cameraComponents/CameraScanners';
 
 const Stack = createNativeStackNavigator();
 
@@ -83,6 +85,7 @@ export default function App() {
               },
             }}
           />
+          <Stack.Screen name="Camera" component={CameraScanner} />
         </Stack.Group>
         {/* <Text>Home Screen</Text> */}
       </Stack.Navigator>
