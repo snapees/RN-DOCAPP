@@ -20,6 +20,7 @@ export default function CollapsibleCard({
   surgery,
   duration,
 }) {
+  // console.log(`Patient data: ${JSON.stringify(name)}`);
   const [isExpanded, setIsExpanded] = useState(true);
 
   const handleExpansion = () => {

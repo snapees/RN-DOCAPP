@@ -4,9 +4,11 @@ import React from 'react';
 import CollapsibleCard from '../../components/CollapsibleCard';
 import ScanCard from '../../components/ScanCard';
 import {COLORS} from '../../constants/Colors';
+import {useNavigation} from '@react-navigation/native';
 
 export default function InactivePatientDetails({route}) {
   const {patient} = route.params;
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -19,7 +21,7 @@ export default function InactivePatientDetails({route}) {
       />
 
       {/* Scan Related Component */}
-      <ScanCard patient={patient} />
+      <ScanCard patient={patient} navigation={navigation} />
 
       <TouchableOpacity style={styles.buttonContainer}>
         <Text style={styles.buttonText}>Sync Device</Text>

@@ -19,6 +19,7 @@ import {EPermissionTypes} from '../cameraComponents/constants';
 import {RESULTS} from 'react-native-permissions';
 import {getShadowProps, goToSettings} from '../cameraComponents/helpers';
 import {CameraScanner} from '../cameraComponents/CameraScanners';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ScanCard({patient}) {
   // console.log(patient);
@@ -30,6 +31,8 @@ export default function ScanCard({patient}) {
   const {askPermissions} = usePermissions(EPermissionTypes.CAMERA);
   const [cameraShown, setCameraShown] = useState(false);
   const [qrText, setQrText] = useState('');
+
+  const navigation = useNavigation();
 
   const handleExpansion1 = () => {
     setIsExpanded(!isExpanded);
@@ -190,7 +193,10 @@ export default function ScanCard({patient}) {
                     ]}
                   />
                   <TouchableOpacity
-                    onPress={takePermissions}
+                    onPress={() => {
+                      takePermissions();
+                      // navigation.navigate('Camera', {patient: patient});
+                    }}
                     activeOpacity={0.5}
                     style={{
                       // ...styles.itemContainer,
@@ -203,6 +209,7 @@ export default function ScanCard({patient}) {
                     <CameraScanner
                       setIsCameraShown={setCameraShown}
                       onReadCode={handleReadCode}
+                      patientData={patient}
                     />
                   )}
                   {/* {qrText !== '' && (
